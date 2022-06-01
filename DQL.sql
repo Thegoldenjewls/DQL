@@ -1,46 +1,127 @@
---1. How many actors are there with the last name ‘Wahlberg’?
+-- I can start here
+select * from actor a;
+
+--query for specific specific columns in the actor table 
+select first_name, last_name
+from actor a;
+
+--use the where clause to filter rows 
 select * 
 from actor a 
-where last_name = 'Wahlberg'; Answer = 2 
--- 
---2. How many payments were made between $3.99 and $5.99?
+where first_name = 'Nick';
 
-select count(*)
-FROM payment 
-WHERE amount between 3.99 and 5.99; Answer 5607
-
---
---3. What film does the store have the most of? (search in inventory)
-SELECT film_id,count(film_id)
-FROM inventory i
-GROUP BY 
-ORDER BY ; 
-
---4. How many customers have the last name ‘William’?
+--like keyword
 select * 
-FROM customer c 
-where last_name = 'William'; answer 0
+from actor a 
+where first_name like 'Nick';
+
+--like keyword with the wildcard aka (%) for 0 to infinity
+select * 
+from actor a 
+where first_name = 'N%';
+
+--like keyword with the wildcard aka (_) for 1 space
+
+select * 
+from actor a 
+where first_name = '_ay';
+
+--like keyword with the wildcard aka (_ and % ) for whatever
+
+select * 
+from actor a 
+where first_name = '_ay';
+
+--comparing operators are:
+--not equal (<>)
+--explore data with select * query (specifically when using a new table)
+select * from payment; 
+
+--get payments of over $2.00
+select *
+from payment
+where amount > 2;
+
+--get all payments between 3 and 8
+select *
+from payment 
+where amount between 3 and 8;
+
+--order our  rows of data  by using  the order by clause
+select *
+from payment p 
+where amount between 3 and 8
+order by amount desc ;
+
+select customer_id,amount
+from payment
+where amount > 5 and customer_id < 200
+order by amount ;
+
+--sql aggregations sum, avg, count, min, max 
+SELECT sum(amount)
+FROM payment; 
+
+--GET the total amount paid IF the amount greater than $5
+SELECT sum(amount)
+FROM payment p 
+WHERE amount > 5;
+
+--GET the avg amount paid IF the amount greater than $5
+SELECT avg(amount)
+FROM payment p 
+WHERE amount > 5;
+
+--GET number of payments paid greater than $5
+SELECT count(*)
+FROM payment p 
+WHERE amount > 5;
+
+--alias our COLUMN name AS keyword
+SELECT max (amount) AS max_amount_paid
+FROM payment p 
+WHERE amount > 5;
+
+--query different amounts
+SELECT count(amount) 
+FROM payment p 
+WHERE amount = 1.99;
+
+--GROUP BY clause ;
+SELECT amount, count (*)
+FROM payment p 
+GROUP BY amount;
+
+--query the payment TABLE TO display the customers who have spent the most (order by the sum amount)
+SELECT customer_id, sum(amount)
+FROM payment
+GROUP BY customer_id 
+ORDER BY sum(amount) DESC;
+
+--HAVING clause --- HAVING IS TO GROUP BY /aggregation AS WHERE IS TO SELECT 
+--query the payment TABLE TO display the customers who have spent  the most. HAVING made AT LEAST 40 payments
+SELECT customer_id,sum(amount),count(*)
+FROM payment p 
+GROUP BY customer_id 
+HAVING count(*) >=40 
+ORDER BY sum(amount) DESC; 
+
+--list the number of 
+SELECT customer_id,sum(amount),count(*)
+FROM payment p 
+GROUP BY customer_id 
+HAVING count(*) <=40 
+ORDER BY sum(amount) DESC
+LIMIT 5;
+
+--START your ROWS AFTER a certain amount OF ROWS USING the offset clause
+--ex. display customers 10- 15 IN the terms OF the most spent UNDER 40 purchases. 
+SELECT customer_id,sum(amount),count(*)
+FROM payment p 
+GROUP BY customer_id 
+HAVING count(*) <=40 
+ORDER BY sum(amount) DESC 
+OFFSET 9  ---SKIP OVER FIRST 9 ROWS
+LIMIT 5;  --LIMIT TO showing ONLY 5 ROWS 
 
 
---5. What store employee (get the id) sold the most rentals?
-SELECT count(staff_id) 
-
-
---
---6. How many different district names are there?
-SELECT count(district)
-FROM address a; answe 603
-
---
---7. What film has the most actors in it? (use film_actor table and get film_id)
-SELECT film_id, 
-FROM film_actor fa 
-ORDER BY count(film_actor);
---
---8. From store_id 1, how many customers have a last name ending with ‘es’? (use customer table)
---
---9. How many payment amounts (4.99, 5.99, etc.) had a number of rentals above 250 for customers
---with ids between 380 and 430? (use group by and having > 250)
---
---10. Within the film table, how many rating categories are there? And what rating has the most
---movies total?
