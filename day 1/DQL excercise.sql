@@ -1,7 +1,7 @@
 --1. How many actors are there with the last name �Wahlberg�?
 select * 
-from actor a 
-where last_name = 'Wahlberg'; Answer = 2 
+FROM actor a 
+where last_name = 'Wahlberg';  
 -- 
 --2. How many payments were made between $3.99 and $5.99?
 
@@ -28,8 +28,8 @@ SELECT count(staff_id)
 
 --
 --6. How many different district names are there?
-SELECT count(district)
-FROM address a; answe 603
+SELECT *
+FROM address a ;
 
 --
 --7. What film has the most actors in it? (use film_actor table and get film_id)
@@ -44,3 +44,5 @@ ORDER BY count(film_actor);
 --
 --10. Within the film table, how many rating categories are there? And what rating has the most
 --movies total?
+SELECT *
+FROM film f 
